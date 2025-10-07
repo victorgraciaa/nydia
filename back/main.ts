@@ -1,5 +1,6 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import "https://deno.land/std@0.224.0/dotenv/load.ts";
+import userRouter from "./routes/users.ts";
 
 const router = new Router();
 
@@ -20,6 +21,8 @@ router.get("/", (ctx) => {
 const app = new Application();
 app.use(router.routes());
 app.use(router.allowedMethods());
+app.use(userRouter.routes());
+app.use(userRouter.allowedMethods());
 
 const port = 8000
 
