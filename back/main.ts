@@ -1,6 +1,7 @@
-import { Application, Router } from "https://deno.land/x/oak/mod.ts";
-import "https://deno.land/std@0.224.0/dotenv/load.ts";
-import userRouter from "./routes/users.ts";
+import { Application, Router } from "https://deno.land/x/oak/mod.ts"
+import "https://deno.land/std@0.224.0/dotenv/load.ts"
+import userRouter from "./routes/users.ts"
+import { oakCors } from "https://deno.land/x/cors/mod.ts"
 
 const router = new Router();
 
@@ -23,6 +24,12 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 app.use(userRouter.routes());
 app.use(userRouter.allowedMethods());
+
+app.use(oakCors({
+  origin: "*",
+  optionsSuccessStatus: 200,
+  methods: ["GET", "POST", "OPTIONS"],
+}));
 
 const port = 8000
 
