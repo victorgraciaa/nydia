@@ -7,7 +7,8 @@ export type User = {
     age: number,
     height: number,
     weight: number,
-    gender: "male" | "female",
+    gender: "hombre" | "mujer",
+    activity_level: "sedentario" | "ligero" | "moderado" | "activo" | "muy_activo",
     created_at: Date
 }
 
@@ -17,6 +18,7 @@ export type UserModel = OptionalId<{
     age: number,
     height: number,
     weight: number,
-    gender: "male" | "female",
+    gender: "hombre" | "mujer",
+    activity_level: "sedentario" | "ligero" | "moderado" | "activo" | "muy_activo",
     created_at: Date
 }>

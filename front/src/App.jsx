@@ -1,27 +1,16 @@
-import { useState, useEffect } from "react"
-import './App.css'
+import { useState } from "react";
+import Home from "./pages/Home.jsx";
+import LoginForm from "./components/LoginForm.jsx";
+import RegisterForm from "./components/RegisterForm.jsx";
 
-function App() {
-  const [message, setMessage] = useState("Cargando...");
-
-  
-  useEffect(() => {
-    fetch("/api/")
-      .then((res) => res.text())
-      .then((data) => setMessage(data))
-      .catch((err) => {
-        console.error("❌ Error al hacer fetch:", err);
-        setMessage("Error de conexión con el backend");
-      });
-  }, []);
-  
+export default function App() {
+  const [view, setView] = useState("home");
 
   return (
-    <div>
-      <h1>Frontend conectado</h1>
-      <p>{message}</p>
-    </div>
+    <>
+      {view === "home" && <Home onSelect={setView} />}
+      {view === "login" && <LoginForm onBack={() => setView("home")} />}
+      {view === "register" && <RegisterForm onBack={() => setView("home")} />}
+    </>
   );
 }
-
-export default App

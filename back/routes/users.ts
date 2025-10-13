@@ -8,10 +8,10 @@ userRouter.post("/users", async (ctx) => {
 try {
     const body = await ctx.request.body.json();
 
-    const { username, password, age, height, weight, gender } = body;
+    const { username, password, age, height, weight, gender, activity_level } = body;
 
     // Validación básica
-    if (!username || !password || !age || !height || !weight || !gender) {
+    if (!username || !password || !age || !height || !weight || !gender || !activity_level) {
       ctx.response.status = 400;
       ctx.response.body = { error: "Faltan campos obligatorios" };
       return;
@@ -25,6 +25,7 @@ try {
       height,
       weight,
       gender,
+      activity_level,
       created_at: new Date(),
     };
 
