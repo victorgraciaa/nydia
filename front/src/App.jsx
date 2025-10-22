@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home.jsx";
-import LoginForm from "./components/LoginForm.jsx";
+import LoginForm from "./components/loginForm.jsx";
 import RegisterForm from "./components/RegisterForm.jsx";
 
 export default function App() {
-  const [view, setView] = useState("home");
-
   return (
-    <>
-      {view === "home" && <Home onSelect={setView} />}
-      {view === "login" && <LoginForm onBack={() => setView("home")} />}
-      {view === "register" && <RegisterForm onBack={() => setView("home")} />}
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+      </Routes>
+    </Router>
   );
 }
