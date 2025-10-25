@@ -3,8 +3,7 @@ import "https://deno.land/std@0.224.0/dotenv/load.ts"
 import registerRouter from "./routes/register.ts"
 import { oakCors } from "https://deno.land/x/cors/mod.ts"
 import loginRouter from "./routes/login.ts";
-
-
+import recommendationRouter from "./routes/recommendations.ts";
 
 const router = new Router();
 
@@ -31,6 +30,9 @@ app.use(registerRouter.allowedMethods());
 
 app.use(loginRouter.routes());
 app.use(loginRouter.allowedMethods());
+
+app.use(recommendationRouter.routes());
+app.use(recommendationRouter.allowedMethods());
 
 app.use(oakCors({
   origin: "*",

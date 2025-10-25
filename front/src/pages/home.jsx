@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext.jsx";
+import Chat from "../components/chat.jsx"
 
 export default function Home() {
   
@@ -42,12 +43,8 @@ export default function Home() {
     </div>
 
     <div style={loggedInStyles.sessionCard}>
-      <h2 style={loggedInStyles.sessionTitle}>Recomendaciones personalizadas</h2>
-      <p style={loggedInStyles.sessionSubtitle}>Tu asistente inteligente está listo para ayudarte 🧠</p>
-      <div style={loggedInStyles.sessionChatBox}>
-        {/* Aquí irá el componente del chat */}
-        <p>Chat de recomendaciones aquí...</p>
-      </div>
+      <p style={loggedInStyles.sessionSubtitle}>NyDIA está listo para ayudarte 🧠</p>
+      <Chat />
     </div>
   </div>
 );

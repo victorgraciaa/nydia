@@ -1,36 +1,55 @@
 import { Router } from "https://deno.land/x/oak/mod.ts";
-import { Configuration, OpenAIApi } from "npm:openai";
-import { nutritionixRequest } from "../utils/nutritionix.ts"; // función que harás para Nutritionix
+import { nutritionixRequest } from "../utils/nutritionix.ts";
+import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
+
+await load({ envPath: "../../.env" });
 
 const recommendationRouter = new Router();
 
-recommendationRouter.post("/recommend", async (ctx) => {
+recommendationRouter.post("/recommendations", async (ctx) => {
   try {
     const { mensaje_usuario, perfil_usuario } = await ctx.request.body.json();
 
-    // 1. Llama a OpenAI con el mensaje y el perfil
-    const openai = new OpenAIApi(new Configuration({
-      apiKey: Deno.env.get("OPENAI_API_KEY"),
-    }));
-
     const prompt = `
-      Usuario: ${mensaje_usuario}
-      Perfil: Edad ${perfil_usuario.edad}, Peso ${perfil_usuario.peso}, Altura ${perfil_usuario.altura}, Género ${perfil_usuario.genero}, Actividad ${perfil_usuario.nivel_actividad}
-      Da una recomendación personalizada de nutrición y deporte.
+    ${mensaje_usuario}
+    Mis datos son los siguientes:\n
+    Edad ${perfil_usuario.edad}, Peso ${perfil_usuario.peso}, Altura ${perfil_usuario.altura}, Género ${perfil_usuario.genero}, Actividad ${perfil_usuario.nivel_actividad}\n
+    Responde forma concisa y clara, utilizando bullet points en los casos que sea necesario, como listas de alimentos.
     `;
 
-    const aiResponse = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: prompt }],
-      max_tokens: 200,
+    console.log("Prompt enviado a Hugging Face:", prompt);
+
+    
+    const hfRes = await fetch("https://router.huggingface.co/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${Deno.env.get("HF_API_KEY")}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+        model: "zai-org/GLM-4.6:novita"
+      })
     });
 
-    // 2. (Opcional) Llama a Nutritionix si quieres recomendar alimentos concretos
+    
+    const hfData = await hfRes.json();
+
     const alimentos = await nutritionixRequest(perfil_usuario);
 
     ctx.response.status = 200;
+
+    console.log("Respuesta de Hugging Face:", hfData);
+    
+    const recomendacion = hfData.choices?.[0]?.message?.content || "Sin respuesta de la IA.";
+    
     ctx.response.body = {
-      recomendacion_ia: aiResponse.data.choices[0].message.content,
+      recomendacion_ia: recomendacion,
       alimentos_recomendados: alimentos,
     };
   } catch (error) {
