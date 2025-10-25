@@ -39,8 +39,8 @@ export default function Home() {
           Edad: {user?.age} &nbsp;
           Altura: {user?.height} &nbsp;
           Peso: {user?.weight} &nbsp;
+          Nivel de actividad: {user?.activity_level} &nbsp;
           Género: {user?.gender} &nbsp;
-          Nivel de actividad: {user?.activity_level}
         </div>
         <button className="sessionLogoutButton" onClick={handleLogout}>
           Cerrar sesión
