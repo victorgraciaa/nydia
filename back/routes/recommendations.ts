@@ -14,11 +14,9 @@ recommendationRouter.post("/recommendations", async (ctx) => {
     ${mensaje_usuario}
     Mis datos son los siguientes:\n
     Edad ${perfil_usuario.edad}, Peso ${perfil_usuario.peso}, Altura ${perfil_usuario.altura}, Género ${perfil_usuario.genero}, Actividad ${perfil_usuario.nivel_actividad}\n
-    Responde forma concisa y clara, utilizando bullet points en los casos que sea necesario, como listas de alimentos.
+    Responde forma concisa y clara, utilizando bullet points en los casos que sea necesario, como listas de alimentos.\n
+    Si el prompt no tiene relación con recomendaciones de salud o alimentación, no respondas.
     `;
-
-    console.log("Prompt enviado a Hugging Face:", prompt);
-
     
     const hfRes = await fetch("https://router.huggingface.co/v1/chat/completions", {
       method: "POST",
@@ -43,8 +41,6 @@ recommendationRouter.post("/recommendations", async (ctx) => {
     const alimentos = await nutritionixRequest(perfil_usuario);
 
     ctx.response.status = 200;
-
-    console.log("Respuesta de Hugging Face:", hfData);
     
     const recomendacion = hfData.choices?.[0]?.message?.content || "Sin respuesta de la IA.";
     
