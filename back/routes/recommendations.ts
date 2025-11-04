@@ -4,20 +4,61 @@ import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
 
 await load({ envPath: "../../.env" });
 
+type MensajeHistorial = {
+      role: "user" | "assistant";
+      content: string;
+    };
+
 const recommendationRouter = new Router();
 
 recommendationRouter.post("/recommendations", async (ctx) => {
   try {
-    const { mensaje_usuario, perfil_usuario } = await ctx.request.body.json();
 
-    const prompt = `
-    ${mensaje_usuario}
-    Mis datos son los siguientes:\n
-    Edad ${perfil_usuario.edad}, Peso ${perfil_usuario.peso}, Altura ${perfil_usuario.altura}, Género ${perfil_usuario.genero}, Actividad ${perfil_usuario.nivel_actividad}\n
-    Responde forma concisa y clara, utilizando bullet points en los casos que sea necesario, como listas de alimentos.\n
-    Si el prompt no tiene relación con recomendaciones de salud o alimentación, no respondas.
-    `;
+    const { mensaje_usuario, perfil_usuario, first_Prompt, historial } = await ctx.request.body.json() as {
+      mensaje_usuario: string;
+      perfil_usuario: {
+        edad: number;
+        peso: number;
+        altura: number;
+        genero: string;
+        nivel_actividad: string;
+      };
+      first_Prompt: boolean;
+      historial: MensajeHistorial[];
+    };
+
     
+    const context = historial
+      .filter((m: MensajeHistorial) => m.role === "user")
+      .map((m: MensajeHistorial) => `    Usuario: ${m.content}`)
+      .join("\n");
+
+
+    let prompt = ""
+    
+    if (first_Prompt) {
+      prompt = `
+    Actúa como un nutricionista profesional y experto en salud y bienestar.
+    Datos del usuario:
+    Edad ${perfil_usuario.edad}, Peso ${perfil_usuario.peso}, Altura ${perfil_usuario.altura}, Género ${perfil_usuario.genero}, Actividad ${perfil_usuario.nivel_actividad}
+    Responde de forma clara y concisa, usando bullet points cuando sea necesario.
+    Sigue estas instrucciones durante toda la conversación.
+    Mensaje del usuario: ${mensaje_usuario}`;
+    } else {
+      prompt = `
+    Actúa como un nutricionista profesional y experto en salud y bienestar.
+    Datos del usuario:
+    Edad ${perfil_usuario.edad}, Peso ${perfil_usuario.peso}, Altura ${perfil_usuario.altura}, Género ${perfil_usuario.genero}, Actividad ${perfil_usuario.nivel_actividad}
+    Responde de forma clara y concisa, usando bullet points cuando sea necesario.
+    Sigue estas instrucciones durante toda la conversación.
+    Historial previo de mensajes del usuario:
+    ${context}
+    Nuevo mensaje: ${mensaje_usuario}
+    `;
+    }
+
+    console.log(prompt)
+
     const hfRes = await fetch("https://router.huggingface.co/v1/chat/completions", {
       method: "POST",
       headers: {

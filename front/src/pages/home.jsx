@@ -35,12 +35,12 @@ export default function Home() {
     <div className="sessionPage">
       <div className="sessionTopBar">
         <div>
-          👤 {user?.username} &nbsp;
-          Edad: {user?.age} &nbsp;
-          Altura: {user?.height} &nbsp;
-          Peso: {user?.weight} &nbsp;
-          Nivel de actividad: {user?.activity_level} &nbsp;
-          Género: {user?.gender} &nbsp;
+          👤 {user?.username} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          Edad: {user?.age} &nbsp; &nbsp;
+          Altura: {user?.height} cm &nbsp; &nbsp;
+          Peso: {user?.weight} kg &nbsp; &nbsp;
+          Nivel de actividad: {user?.activity_level} &nbsp; &nbsp;
+          Género: {user?.gender} &nbsp; &nbsp;
         </div>
         <button className="sessionLogoutButton" onClick={handleLogout}>
           Cerrar sesión
