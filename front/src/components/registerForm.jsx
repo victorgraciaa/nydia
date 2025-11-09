@@ -9,8 +9,8 @@ export default function RegisterForm({ onBack }) {
     age: "",
     height: "",
     weight: "",
-    gender: "hombre",
-    activity_level: "sedentario",
+    gender: "",
+    activity_level: "",
   });
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
@@ -73,7 +73,8 @@ export default function RegisterForm({ onBack }) {
             <div className="form-title">Crear cuenta</div>
             <form className="form-form" onSubmit={handleSubmit}>
               <input
-                className="form-input"
+                className="form-input-select"
+                maxLength={20}
                 type="text"
                 name="username"
                 placeholder="Usuario"
@@ -82,7 +83,8 @@ export default function RegisterForm({ onBack }) {
                 required
               />
               <input
-                className="form-input"
+                className="form-input-select"
+                maxLength={20}
                 type="password"
                 name="password"
                 placeholder="Contraseña"
@@ -91,7 +93,7 @@ export default function RegisterForm({ onBack }) {
                 required
               />
               <input
-                className="form-input"
+                className="form-input-select"
                 type="number"
                 name="age"
                 placeholder="Edad"
@@ -100,7 +102,7 @@ export default function RegisterForm({ onBack }) {
                 required
               />
               <input
-                className="form-input"
+                className="form-input-select"
                 type="number"
                 name="height"
                 placeholder="Altura (cm)"
@@ -109,7 +111,7 @@ export default function RegisterForm({ onBack }) {
                 required
               />
               <input
-                className="form-input"
+                className="form-input-select"
                 type="number"
                 name="weight"
                 placeholder="Peso (kg)"
@@ -118,20 +120,24 @@ export default function RegisterForm({ onBack }) {
                 required
               />
               <select
-                className="form-select"
+                className="form-input-select"
                 name="gender"
                 value={form.gender}
                 onChange={handleChange}
+                defaultValue=""
               >
+                <option value="" disabled>Sexo</option>
                 <option value="hombre">Hombre</option>
                 <option value="mujer">Mujer</option>
               </select>
               <select
-                className="form-select"
+                className="form-input-select"
                 name="activity_level"
                 value={form.activity_level}
                 onChange={handleChange}
+                defaultValue=""
               >
+                <option value="" disabled>Nivel de actividad</option>
                 <option value="sedentario">Sedentario</option>
                 <option value="ligero">Ligero</option>
                 <option value="moderado">Moderado</option>

@@ -52,7 +52,7 @@ export default function LoginForm() {
             <div className="form-title">Iniciar sesión</div>
             <form className="form-form" onSubmit={handleSubmit}>
               <input
-                className="form-input"
+                className="form-input-select"
                 type="text"
                 name="username"
                 placeholder="Usuario"
@@ -61,7 +61,7 @@ export default function LoginForm() {
                 required
               />
               <input
-                className="form-input"
+                className="form-input-select"
                 type="password"
                 name="password"
                 placeholder="Contraseña"
