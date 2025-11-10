@@ -17,16 +17,20 @@ export default function Home() {
   if (!token) {
     return (
       <div className="home-container">
-        <div className="home-title">
-          Bienvenido a <span className="home-brand">NyDIA</span>
+        <div className="home-card">
+          <div className="home-title">
+            Bienvenido a <span className="home-brand">NyDIA</span>
+          </div>
+          <div className="home-subtitle">
+            Tu asistente inteligente de nutrición y deporte 💪
+          </div>
+          <div className="home-buttons">
+            <Link to="/login" className="home-button">Iniciar sesión</Link>
+            <Link to="/register" className="home-buttonOutline">Registrarse</Link>
+          </div>
         </div>
-        <div className="home-subtitle">
-          Tu asistente inteligente de nutrición y deporte 💪
-        </div>
-        <div className="home-buttons">
-          <Link to="/login" className="home-button">Iniciar sesión</Link>
-          <Link to="/register" className="home-buttonOutline">Registrarse</Link>
-        </div>
+
+        
       </div>
     );
   }
