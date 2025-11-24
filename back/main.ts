@@ -7,16 +7,6 @@ import recommendationRouter from "./routes/recommendations.ts";
 
 const router = new Router();
 
-const x_app_id = Deno.env.get("NUTRITIONIX_APP_ID")
-if(!x_app_id){
-  throw new Error("NUTRITIONIX_APP_ID not found")
-}
-
-const x_app_key = Deno.env.get("NUTRITIONIX_APP_KEY")
-if(!x_app_key){
-  throw new Error("NUTRITIONIX_APP_KEY not found")
-}
-
 router.get("/", (ctx) => {
   ctx.response.body = "Nydia";
 });

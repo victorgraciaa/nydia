@@ -1,4 +1,4 @@
-import { ObjectId, OptionalId } from "mongodb";
+import { OptionalId } from "mongodb";
 
 export type User = {
     id: string,

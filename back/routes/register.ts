@@ -10,23 +10,17 @@ function isValidPassword(password: string): boolean {
   return regex.test(password);
 }
 
-function isPositiveNumber(value: number): boolean {
-  return typeof value === "number" && value > 0;
-}
-
 registerRouter.post("/register", async (ctx) => {
   try {
     const body = await ctx.request.body.json();
     const { username, password, age, height, weight, gender, activity_level } = body;
 
-    // Validación de campos obligatorios
     if (!username || !password || !age || !height || !weight || !gender || !activity_level) {
       ctx.response.status = 400;
       ctx.response.body = { error: "Faltan campos obligatorios" };
       return;
     }
 
-    // Validación de contraseña
     if (!isValidPassword(password)) {
       ctx.response.status = 400;
       ctx.response.body = {
@@ -35,7 +29,6 @@ registerRouter.post("/register", async (ctx) => {
       return;
     }
 
-    // Verificar si el nombre de usuario ya existe
     const existingUser = await usersCollection.findOne({ username });
     if (existingUser) {
       ctx.response.status = 409;
@@ -47,7 +40,6 @@ registerRouter.post("/register", async (ctx) => {
     const parsedHeight = Number(body.height);
     const parsedWeight = Number(body.weight);
 
-    // Validaciones
     if (isNaN(parsedAge) || parsedAge <= 0) {
       ctx.response.status = 400;
       ctx.response.body = { error: "La edad debe ser un número positivo" };
@@ -61,7 +53,6 @@ registerRouter.post("/register", async (ctx) => {
 
     const hashedPassword = await hash(password);
 
-    // Crear nuevo usuario con tipos correctos
     const newUser: UserModel = {
       username,
       password: hashedPassword,

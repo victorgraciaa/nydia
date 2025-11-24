@@ -1,6 +1,4 @@
 import { MongoClient } from "mongodb"
-import { ObjectId } from "mongodb"
-import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
 
 const url = Deno.env.get("MONGO_URL")
 

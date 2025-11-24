@@ -1,5 +1,4 @@
 import { Router } from "https://deno.land/x/oak/mod.ts";
-import { nutritionixRequest } from "../utils/nutritionix.ts";
 import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
 
 await load({ envPath: "../../.env" });
@@ -79,7 +78,6 @@ recommendationRouter.post("/recommendations", async (ctx) => {
     
     const hfData = await hfRes.json();
 
-    const alimentos = await nutritionixRequest(perfil_usuario);
 
     ctx.response.status = 200;
     
@@ -87,7 +85,6 @@ recommendationRouter.post("/recommendations", async (ctx) => {
     
     ctx.response.body = {
       recomendacion_ia: recomendacion,
-      alimentos_recomendados: alimentos,
     };
   } catch (error) {
     ctx.response.status = 500;

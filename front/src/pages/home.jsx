@@ -16,6 +16,7 @@ export default function Home() {
 
   if (!token) {
     return (
+      
       <div className="home-container">
         <div className="home-card">
           <div className="home-title">
@@ -28,9 +29,7 @@ export default function Home() {
             <Link to="/login" className="home-button">Iniciar sesión</Link>
             <Link to="/register" className="home-buttonOutline">Registrarse</Link>
           </div>
-        </div>
-
-        
+        </div>        
       </div>
     );
   }

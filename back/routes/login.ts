@@ -3,8 +3,6 @@ import usersCollection from "../db/mongodb.ts";
 import { compare } from "https://deno.land/x/bcrypt/mod.ts";
 import { create, getNumericDate } from "https://deno.land/x/djwt/mod.ts";
 
-
-
 const loginRouter = new Router();
 
 loginRouter.post("/login", async (ctx) => {
@@ -32,10 +30,9 @@ loginRouter.post("/login", async (ctx) => {
       return;
     }
 
-    
     const key = await crypto.subtle.importKey(
       "raw",
-      new TextEncoder().encode(Deno.env.get("JWT_SECRET")!), // tu clave secreta
+      new TextEncoder().encode(Deno.env.get("JWT_SECRET")!),
       { name: "HMAC", hash: "SHA-256" },
       false,
       ["sign", "verify"]
