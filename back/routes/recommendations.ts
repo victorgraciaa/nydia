@@ -56,8 +56,6 @@ recommendationRouter.post("/recommendations", async (ctx) => {
     `;
     }
 
-    console.log(prompt)
-
     const hfRes = await fetch("https://router.huggingface.co/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -74,10 +72,8 @@ recommendationRouter.post("/recommendations", async (ctx) => {
         model: "zai-org/GLM-4.6:novita"
       })
     });
-
     
     const hfData = await hfRes.json();
-
 
     ctx.response.status = 200;
     
