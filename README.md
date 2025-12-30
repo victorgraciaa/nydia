@@ -16,9 +16,7 @@ NyDIA es una aplicación web orientada a la recomendación de pautas nutricional
 
 
 
-Para acceder a la aplicación se utiliza el siguiente enlace:
-
-(url)
+Para acceder a la aplicación se utiliza el siguiente enlace: (url)
 
 
 
