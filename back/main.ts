@@ -36,14 +36,3 @@ const port = 8000
 
 console.log(`🚀 Nydia ejecutándose en: http://localhost:${port}`);
 await app.listen({ port: port });
-
-/*
-const ctx = {
-  waitUntil: (_p: Promise<any>) => {},
-  passThroughOnException: () => {},
-};
-
-Deno.serve((req) => {
-  return app.fetch(req, {}, ctx);
-});
-*/
