@@ -2,7 +2,8 @@
   "tasks": {
     "dev": "deno run --env -A --watch main.ts",
     "back": "cd back && deno run --env -A --watch main.ts",
-    "front": "cd front && npm run dev"
+    "front": "cd front && npm run dev",
+    "start": "deno run --allow-net --allow-env --allow-read main.ts"
   },
   
   "imports": {
