@@ -6,14 +6,14 @@ await load({ envPath: "../../.env" });
 type MensajeHistorial = {
       role: "user" | "assistant";
       content: string;
-    };
+};
 
 const recommendationRouter = new Router();
 
 recommendationRouter.post("/recommendations", async (ctx) => {
   try {
 
-    const { mensaje_usuario, perfil_usuario, first_Prompt, historial } = await ctx.request.body.json() as {
+    const { mensaje_usuario, perfil_usuario, historial } = await ctx.request.body.json() as {
       mensaje_usuario: string;
       perfil_usuario: {
         edad: number;
@@ -22,62 +22,63 @@ recommendationRouter.post("/recommendations", async (ctx) => {
         genero: string;
         nivel_actividad: string;
       };
-      first_Prompt: boolean;
       historial: MensajeHistorial[];
     };
-
     
-    const context = historial
-      .filter((m: MensajeHistorial) => m.role === "user")
-      .map((m: MensajeHistorial) => `    Usuario: ${m.content}`)
-      .join("\n");
+    const systemPrompt = `
+      Actúa como asistente de orientación nutricional y actividad física basado en recomendaciones generales. Sigue estas reglas:
+      - Responde de forma clara, concisa y motivadora.
+      - Usa formato estructurado: **Recomendaciones nutricionales** / **Recomendaciones de actividad física**.
+      - Si hay objetivo (pérdida de peso, ganancia muscular, mantenimiento), incluye calorías, macros y rutina adaptada.
+      - No des diagnósticos médicos ni sustituyas la opinión de un profesional sanitario.
+      - Si falta información, solicita aclaraciones.
+      - Responde únicamente a cuestiones relativas a nutrición y actividad física.
 
-
-    let prompt = ""
-    
-    if (first_Prompt) {
-      prompt = `
-    Actúa como un nutricionista profesional y experto en salud y bienestar.
-    Datos del usuario:
-    Edad ${perfil_usuario.edad}, Peso ${perfil_usuario.peso}, Altura ${perfil_usuario.altura}, Género ${perfil_usuario.genero}, Actividad ${perfil_usuario.nivel_actividad}
-    Responde de forma clara y concisa, usando bullet points cuando sea necesario.
-    Sigue estas instrucciones durante toda la conversación.
-    Mensaje del usuario: ${mensaje_usuario}`;
-    } else {
-      prompt = `
-    Actúa como un nutricionista profesional y experto en salud y bienestar.
-    Datos del usuario:
-    Edad ${perfil_usuario.edad}, Peso ${perfil_usuario.peso}, Altura ${perfil_usuario.altura}, Género ${perfil_usuario.genero}, Actividad ${perfil_usuario.nivel_actividad}
-    Responde de forma clara y concisa, usando bullet points cuando sea necesario.
-    Sigue estas instrucciones durante toda la conversación.
-    Historial previo de mensajes del usuario:
-    ${context}
-    Nuevo mensaje: ${mensaje_usuario}
+      Datos del usuario:
+      - Edad: ${perfil_usuario.edad}
+      - Peso: ${perfil_usuario.peso}
+      - Altura: ${perfil_usuario.altura}
+      - Género: ${perfil_usuario.genero}
+      - Nivel de actividad física: ${perfil_usuario.nivel_actividad}
     `;
-    }
 
-    const hfRes = await fetch("https://router.huggingface.co/v1/chat/completions", {
-      method: "POST",
+    const userPrompt = `
+      Mensaje del usuario:
+      ${mensaje_usuario}
+    `;
+
+    const orRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
       headers: {
-        "Authorization": `Bearer ${Deno.env.get("HF_API_KEY")}`,
-        "Content-Type": "application/json"
+        Authorization: `Bearer ${Deno.env.get("OR_API_KEY")}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        messages: [
+        model: 'meta-llama/llama-3.3-70b-instruct:free',
+        messages: [ 
           {
-            role: "user",
-            content: prompt
+            role: 'system',
+            content: systemPrompt,
+          },
+          ...historial,
+          {
+            role: 'user',
+            content: userPrompt,
           }
         ],
-        model: "zai-org/GLM-4.6:novita"
-      })
+        temperature: 0.3,
+        "provider": {
+          "sort": "throughput",
+          "zdr": true
+        }
+      }),
     });
-    
-    const hfData = await hfRes.json();
+
+    const orData = await orRes.json();  
 
     ctx.response.status = 200;
     
-    const recomendacion = hfData.choices?.[0]?.message?.content || "Sin respuesta de la IA.";
+    const recomendacion = orData.choices?.[0]?.message?.content || "Sin respuesta de la IA.";
     
     ctx.response.body = {
       recomendacion_ia: recomendacion,
