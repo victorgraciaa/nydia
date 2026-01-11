@@ -43,6 +43,6 @@ const ctx = {
   passThroughOnException: () => {},
 };
 
-Deno.serve({port: 8000}, (req) => {
+Deno.serve((req) => {
   return app.fetch(req, {}, ctx);
 });
