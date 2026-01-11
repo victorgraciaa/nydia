@@ -14,7 +14,7 @@ router.get("/", (ctx) => {
 const app = new Application();
 
 app.use(oakCors({
-  origin: "*",
+  origin: "https://nydia-app.onrender.com",
   optionsSuccessStatus: 200,
   methods: ["GET", "POST", "OPTIONS"],
 }));

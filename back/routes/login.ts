@@ -18,7 +18,7 @@ loginRouter.post("/login", async (ctx) => {
 
     const user = await usersCollection.findOne({ username });
     if (!user) {
-      ctx.response.status = 401;
+      ctx.response.status = 404;
       ctx.response.body = { error: "Usuario no encontrado" };
       return;
     }
