@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Home from "./pages/Home.jsx";
+import Home from "./pages/home.jsx";
 import LoginForm from "./components/loginForm.jsx";
-import RegisterForm from "./components/RegisterForm.jsx";
+import RegisterForm from "./components/registerForm.jsx";
 
 export default function App() {
   return (
