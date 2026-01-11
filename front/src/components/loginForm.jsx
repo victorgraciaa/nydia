@@ -20,8 +20,11 @@ export default function LoginForm() {
       setMessage("❌ Todos los campos son obligatorios");
       return;
     }
+
+    const API_URL = import.meta.env.VITE_API_URL;
+
     try {
-      const res = await fetch("/back/login", {
+      const res = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

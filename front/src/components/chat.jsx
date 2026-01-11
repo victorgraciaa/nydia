@@ -34,8 +34,11 @@ export default function Chat() {
       ...msgs,
       { sender: "usuario", text: input }
     ]);
+
+const API_URL = import.meta.env.VITE_API_URL;
+
     try {
-      const res = await fetch("/back/recommendations", {
+      const res = await fetch(`${API_URL}/recommendations`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

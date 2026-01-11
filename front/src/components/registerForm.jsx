@@ -43,8 +43,11 @@ export default function RegisterForm({ onBack }) {
       setMessage("❌\n" + errors.join("\n"));
       return;
     }
+
+    const API_URL = import.meta.env.VITE_API_URL;
+
     try {
-      const res = await fetch("/back/register", {
+      const res = await fetch(`${API_URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, age, height, weight }),
