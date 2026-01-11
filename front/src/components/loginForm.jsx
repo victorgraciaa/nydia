@@ -36,6 +36,7 @@ export default function LoginForm() {
       sessionStorage.setItem("token", data.token);
       login(data.token, data.user);
     } catch (err) {
+      console.log("API_URL:", API_URL);
       setMessage("❌ " + err.message);
     }
   };
