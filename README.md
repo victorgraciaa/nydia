@@ -16,8 +16,9 @@ NyDIA es una aplicación web orientada a la recomendación de pautas nutricional
 
 Para utilizar NyDIA en la aplicación web desplegada, utilice el siguiente enlace:
 https://nydia-app.onrender.com/
+En las primeras órdenes al desplegar la página web puede tardar unos segundos más de lo normal.
 
-El usuario debe registrarse para poder usar la aplicación. Una vez registrado y rellenado el formulario con los datos, se debe iniciar sesión para comenzar un chat con el asistente. Se inicia sesión desde la página principal.
+El usuario debe registrarse para poder usar la aplicación. Una vez se haya registrado y rellenado el formulario con los datos, debe iniciar sesión para comenzar un chat con el asistente. Se inicia sesión desde la página principal.
 
-Cuando el usuario acceda a la aplicación correctamente, se muestra un chat con el cual se interactuará con la IA para recibir las recomendaciones pertinentes.
+Cuando el usuario acceda a la aplicación correctamente, se mostrará un chat con el cual se interactuará con la IA para recibir las recomendaciones pertinentes.
 
